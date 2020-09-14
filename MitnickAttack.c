@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libnet.h>
+#include <unistd.h>
 #include "flood.h"
 #include "sender.h"
 int main() {
@@ -46,7 +47,7 @@ int main() {
 
     disableServer(l,kevin,server);
 
-
+    sleep(5);
 
     //restore server
     enableServer(l,kevin,server);
