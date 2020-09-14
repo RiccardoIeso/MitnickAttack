@@ -11,7 +11,8 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     bpf_u_int32 subMask;            
     bpf_u_int32 ipAddr;   
     struct bpf_program fp;         
-
+    struct pcap_pkthdr header;
+    const u_char *packet;	
     dev = pcap_lookupdev(errbuff);
 
     //Check on device
@@ -54,6 +55,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         usleep(1000);
+        packet = pcap_next(des, &header);
         printf("miao");
         fflush(stdout);
 
