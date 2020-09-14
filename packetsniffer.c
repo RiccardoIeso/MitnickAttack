@@ -48,7 +48,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     bpf_u_int32 subMask;            
     bpf_u_int32 ipAddr;   
     struct bpf_program fp;         
-    struct pcap_pkthdr header;
+    struct pcap_pkthdr *header;
     const u_char *packet;	
     dev = pcap_lookupdev(errbuff);
 
@@ -92,9 +92,9 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         
-        if((packet = pcap_next(des, &header))==NULL)
+        if((packet = pcap_next(des, header))==NULL)
         {
-            printf("\n mm", pcap_geterr(des));
+            printf("\n mm ");
             exit(0);
         }
         const struct ipHeader *ip = (struct ipHeader *) (packet + 14);
