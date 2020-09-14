@@ -28,7 +28,7 @@ int main() {
         fprintf(stderr, "Error in server ip conversion");
         exit(0);
     }    
-    if((xterminal=libnet_name2addr(1,"172.16.45.4", LIBNET_DONT_RESOLVE)==(u_long)-1)
+    if((xterminal=libnet_name2addr(1,"172.16.45.4", LIBNET_DONT_RESOLVE))==(u_long)-1)
     {
         fprintf(stderr, "Error in xterminal ip conversion");
         exit(0);
