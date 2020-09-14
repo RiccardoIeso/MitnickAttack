@@ -10,7 +10,7 @@
 
 int main()
 {
- 
+    //com
     //Defining variables
     u_long server;
     u_long xterminal;
