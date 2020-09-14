@@ -10,7 +10,7 @@
 
 int main()
 {
-    //com
+
     //Defining variables
     u_long server;
     u_long xterminal;
@@ -53,17 +53,6 @@ int main()
 
     packetSnifferInitialize(l,kevin,server);
 
-    for(int i=0; i<2;i++)
-    {
-        //send packet
-        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
-        ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
-        sendPacket(l);
-        usleep(1000);
-        printf("miao");
-        fflush(stdout);
-
-    }
     printf("\n Enabling the server...");
     fflush(stdout);
     enableServer(l,kevin,server);
