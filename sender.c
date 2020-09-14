@@ -4,7 +4,8 @@ void tcpTagCreate( libnet_t *l,u_int32_t srcPort, u_int32_t dstPort,
                                     char *payload, u_int32_t payloadLength, 
                                         u_int8_t controlFlags)
 {
-    libnet_ptag_t tcp=libnet_build_tcp(
+    libnet_ptag_t tcp=LIBNET_PTAG_INITIALIZER;
+    tcp =libnet_build_tcp(
         srcPort,        //source TCP port
         dstPort,        //destination TCP port
         seqNumber,      //sequence number
@@ -22,7 +23,7 @@ void tcpTagCreate( libnet_t *l,u_int32_t srcPort, u_int32_t dstPort,
 
     if(tcp==-1)
     {
-        fprintf(stderr, "Error building tcp header");
+        fprintf(stderr, "Error building tcp header %s",libnet_geterror(l));
         exit(0);
     }
 
@@ -32,7 +33,8 @@ void tcpTagCreate( libnet_t *l,u_int32_t srcPort, u_int32_t dstPort,
 void ipTagCreate( libnet_t *l, u_int32_t srcAddr, u_int32_t dstAddr, 
                                 char *payload, u_int32_t payloadLength)
 {
-    libnet_ptag_t ip=libnet_build_ipv4(
+    libnet_ptag_t ip= LIBNET_PTAG_INITIALIZER;
+    ip=libnet_build_ipv4(
         LIBNET_IPV4_H + LIBNET_TCP_H + payloadLength, //packet length
         0,
         libnet_get_prand(LIBNET_PRu16),
