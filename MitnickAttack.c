@@ -63,7 +63,7 @@ int main()
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         usleep(100);
-        printf("%d",pcap_next_ex(des, pkheader, pkt_data));
+        printf("miao");
         fflush(stdout);
 
     }
