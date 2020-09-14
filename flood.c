@@ -1,12 +1,12 @@
 #include "flood.h"
 #include <stdio.h>
 
-void disableServer(char *serverIp)
+void disableServer(u_long serverIp)
 {
 
 }
 
-void enableServer(char *serverIp)
+void enableServer(u_long serverIp)
 {
     
 }
