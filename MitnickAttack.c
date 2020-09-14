@@ -59,8 +59,9 @@ int main()
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
+        usleep(100);
         packet = pcap_next(des, &pkheader);
-        printf("%s\n",packet);
+        printf("miao %s\n",packet);
 
     }
 
