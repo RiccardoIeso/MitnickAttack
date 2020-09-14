@@ -48,8 +48,6 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     bpf_u_int32 subMask;            
     bpf_u_int32 ipAddr;   
     struct bpf_program fp;         
-    struct pcap_pkthdr *header=malloc(sizeof(struct pcap_pkthdr *));
-    const u_char *packet;	
     dev = pcap_lookupdev(errbuff);
 
     //Check on device
@@ -88,10 +86,10 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     for(int i=0; i<2;i++)
     {
         //send packet
-        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
+        tcpTagCreate(l,libnet_get_prand(LIBNET_PRu16),(u_int16_t)513,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
-        usleep(1000);
+        usleep(10000);
         printf("miao");
         fflush(stdout);
 
