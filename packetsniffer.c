@@ -3,6 +3,7 @@
 #include <libnet.h>
 #include <stdlib.h>
 #include "sender.h"
+#include "headerdefinition.h"
 void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
 {
     char *dev;
