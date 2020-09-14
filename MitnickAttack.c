@@ -15,11 +15,8 @@ int main()
     u_long server;
     u_long xterminal;
     u_long kevin;
-    struct pcap_pkthdr **pkheader;
     libnet_t *l;  //Libnet Context
-    const u_char **pkt_data;
     char errbuf[LIBNET_ERRBUF_SIZE];
-    const u_char *packet;
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
 
     if ( l == NULL ) {
@@ -54,7 +51,7 @@ int main()
     fflush(stdout);
     disableServer(l,kevin,server);
 
-    pcap_t* des=packetSnifferInitialize();
+    packetSnifferInitialize(l,kevin,server);
 
     for(int i=0; i<2;i++)
     {
@@ -67,7 +64,6 @@ int main()
         fflush(stdout);
 
     }
-    closePacketSniffer(des);
     printf("\n Enabling the server...");
     fflush(stdout);
     enableServer(l,kevin,server);

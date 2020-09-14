@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <pcap/pcap.h>
-#include<stdlib.h>
-pcap_t* packetSnifferInitialize()
+#include <libnet.h>
+#include <stdlib.h>
+#include "sender.h"
+void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
 {
     char *dev;
     char errbuff[PCAP_ERRBUF_SIZE];
@@ -45,8 +47,18 @@ pcap_t* packetSnifferInitialize()
         pcap_close(des);
         exit(0);
     }
+    for(int i=0; i<2;i++)
+    {
+        //send packet
+        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
+        ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
+        sendPacket(l);
+        usleep(1000);
+        printf("miao");
+        fflush(stdout);
 
-    return des;
+    }
+     pcap_close(des);
 
 }
 
