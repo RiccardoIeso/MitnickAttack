@@ -16,7 +16,7 @@ void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp)
     {   
         sendPacket(l);
     }
-                        
+    usleep(200);                   
 }
 
 void enableServer(libnet_t *l,u_long kevinIp,u_long serverIp)
@@ -30,5 +30,5 @@ void enableServer(libnet_t *l,u_long kevinIp,u_long serverIp)
                                    NULL, (u_int32_t)6 );
 
     sendPacket(l);
-
+    usleep(200);                   
 }

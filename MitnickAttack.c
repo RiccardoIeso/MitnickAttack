@@ -46,8 +46,10 @@ int main() {
     //Server flood
 
     disableServer(l,kevin,server);
+
+    //Predict the seq
+
     enableServer(l,kevin,server);
-    sleep(5);
 
     //restore server
     enableServer(l,kevin,server);
