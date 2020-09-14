@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef _FLOOD_H_
+#define _FLOOD_H_
 #include <libnet.h>
-#ifndef WHATEVER_H_INCLUDED
-#define WHATEVER_H_INCLUDED
-#define USER_NUMBER 100
-void disableServer(u_long serverIp);
-void enableServer(u_long serverIp);
+void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp);
+void enableServer(libnet_t *l,u_long serverIp);
 #endif

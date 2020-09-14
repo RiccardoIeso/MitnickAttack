@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libnet.h>
-
+#include "flood.h"
+#include "sender.h"
 int main() {
 
     //Defining variables
@@ -43,7 +44,7 @@ int main() {
 
     //Server flood
 
-
+    disableServer(l,kevin,server);
 
     libnet_destroy(l);
     return 0;
