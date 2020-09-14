@@ -94,7 +94,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         usleep(50);
         if((packet = pcap_next(des, &header))==NULL)
         {
-            printf("\n%s", pcap_geterr(des));
+            printf("\n mm", pcap_geterr(des));
             exit(0);
         }
         const struct ipHeader *ip = (struct ipHeader *) (packet + 14);
