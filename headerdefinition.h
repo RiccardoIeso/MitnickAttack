@@ -1,7 +1,7 @@
 #ifndef _HEADERDEFINITION_H
 #define _HEADERDEFINITION_H
-#include <libnet.h>
 #include <pcap/pcap.h>
+#include <libnet.h>
 
 struct tcpHeader {
 	u_short th_sport;	/* source port */

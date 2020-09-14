@@ -58,9 +58,9 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         sendPacket(l);
         usleep(1000);
         packet = pcap_next(des, &header);
-        stcp = (tcpH *) (packet + 14 + sizeof(ipH));
-        uint32_t seq = ntohl(stcp->th_seq);
-        printf("\n seq: %d", seq);
+        //stcp = (tcpH *) (packet + 14 + sizeof(ipH));
+        //uint32_t seq = ntohl(stcp->th_seq);
+        //printf("\n seq: %d", seq);
         fflush(stdout);
         printf("miao");
         fflush(stdout);

@@ -50,9 +50,9 @@ int main()
     printf("\n Disabling server...");
     fflush(stdout);
     disableServer(l,kevin,server);
-
+    usleep(1000);
     packetSnifferInitialize(l,kevin,server);
-
+    usleep(1000);
     printf("\n Enabling the server...");
     fflush(stdout);
     enableServer(l,kevin,server);
