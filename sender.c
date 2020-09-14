@@ -52,7 +52,7 @@ void ipTagCreate( libnet_t *l, u_int32_t srcAddr, u_int32_t dstAddr,
 
     if(ip==-1)
     {
-        fprintf(stderr, "Error building ip header");
+        fprintf(stderr, "Error building ip header %s",libnet_geterror(l));
         exit(0);
     }
 
