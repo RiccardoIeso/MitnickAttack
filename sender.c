@@ -15,8 +15,8 @@ libnet_ptag_t tcpTagCreate( libnet_t *l,u_int32_t srcPort, u_int32_t dstPort,
         libnet_get_prand(LIBNET_PRu16), //window size
         0,
         0,
-        LIBNET_TCP_H + payload_length, //packet length
-        payload,
+        LIBNET_TCP_H + payloadLength, //packet length
+        (u_int8_t *)payload,
         payloadLength,
         l,
         tcp
