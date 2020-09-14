@@ -20,7 +20,7 @@ int main() {
     exit(EXIT_FAILURE);
     }
 
-    libnet_seed_prand(1);
+    libnet_seed_prand(l);
 
     //Retrieving IP by conversion
     if((server=libnet_name2addr4(l,"172.16.45.3", LIBNET_DONT_RESOLVE))==(u_long)-1)
