@@ -46,7 +46,7 @@ int main() {
     //Server flood
 
     disableServer(l,kevin,server);
-
+    enableServer(l,kevin,server);
     sleep(5);
 
     //restore server
