@@ -59,7 +59,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         usleep(100);
         if((packet = pcap_next(des, &header))==NULL)
         {
-            fprintf(stderr, "%s", pcap_geterr(des));
+            printf("mm");
             exit(0);
         }
         //stcp = (tcpH *) (packet + 14 + sizeof(ipH));
