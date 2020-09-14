@@ -23,17 +23,17 @@ int main() {
     libnet_seed_prand(1);
 
     //Retrieving IP by conversion
-    if((server=libnet_name2addr(1,"172.16.45.3", LIBNET_DONT_RESOLVE))==(u_long)-1)
+    if((server=libnet_name2addr4(1,"172.16.45.3", LIBNET_DONT_RESOLVE))==(u_long)-1)
     {
         fprintf(stderr, "Error in server ip conversion");
         exit(0);
     }    
-    if((xterminal=libnet_name2addr(1,"172.16.45.4", LIBNET_DONT_RESOLVE))==(u_long)-1)
+    if((xterminal=libnet_name2addr4(1,"172.16.45.4", LIBNET_DONT_RESOLVE))==(u_long)-1)
     {
         fprintf(stderr, "Error in xterminal ip conversion");
         exit(0);
     }
-    if((kevin=libnet_name2addr(1,"172.16.45.2", LIBNET_DONT_RESOLVE))==(u_long)-1)
+    if((kevin=libnet_name2addr4(1,"172.16.45.2", LIBNET_DONT_RESOLVE))==(u_long)-1)
     {
         fprintf(stderr, "Error in kevin ip conversion");
         exit(0);        
