@@ -100,8 +100,8 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         const struct ipHeader *ip = (struct ipHeader *) (packet + 14);
         //u_int size_ip = IP_HEADER_LENGTH(ip) * 4;
         const struct tcpHeader *tcp = (struct tcpHeader *) (packet + 14 + sizeof(struct ipHeader));
-        //u_int32_t seq = ntohl(tcp->th_seq);
-        //printf("\n seq: %d", seq);
+        u_int32_t seq = ntohl(tcp->th_seq);
+        printf("\n seq: %d", seq);
         fflush(stdout);
         printf("miao");
         fflush(stdout);
