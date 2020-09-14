@@ -56,15 +56,15 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
-        usleep(100);
+        usleep(50);
         if((packet = pcap_next(des, &header))==NULL)
         {
             printf("\n%s", pcap_geterr(des));
             //exit(0);
         }
-        //stcp = (tcpH *) (packet + 14 + sizeof(ipH));
-        //uint32_t seq = ntohl(stcp->th_seq);
-        //printf("\n seq: %d", seq);
+        const struct tcp_header *tcp = (struct tcpHeader *) (packet + 14 + sizeof(struct ipHeader));
+        uint32_t seq = ntohl(stcp->th_seq);
+        printf("\n seq: %d", seq);
         fflush(stdout);
         printf("miao");
         fflush(stdout);
