@@ -27,7 +27,7 @@ void enableServer(libnet_t *l,u_long kevinIp,u_long serverIp)
                                     TH_SYN);
 
     ipTagCreate(l,(u_int32_t)kevinIp,(u_int32_t)serverIp,
-                                   NULL, (u_int32_t)7 );
+                                   NULL, (u_int32_t)6 );
 
     sendPacket(l);
 
