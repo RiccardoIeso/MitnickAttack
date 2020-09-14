@@ -49,7 +49,9 @@ int main()
 
 
     //Server flood
+    fflush(stdout);
     printf("\n Disabling server...");
+    fflush(stdout);
     disableServer(l,kevin,server);
 
     pcap_t* des=packetSnifferInitialize();
@@ -62,11 +64,12 @@ int main()
         sendPacket(l);
         usleep(100);
         printf("%d",pcap_next_ex(des, pkheader, pkt_data));
-       
+        fflush(stdout);
 
     }
     closePacketSniffer(des);
     printf("\n Enabling the server...");
+    fflush(stdout);
     enableServer(l,kevin,server);
 
     //restore server
