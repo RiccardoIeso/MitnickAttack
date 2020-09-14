@@ -6,6 +6,7 @@
 #include "flood.h"
 #include "sender.h"
 #include "packetsniffer.h"
+#include <pcap/pcap.h>
 
 int main()
 {
@@ -14,9 +15,9 @@ int main()
     u_long server;
     u_long xterminal;
     u_long kevin;
-    struct pcap_pkthdr pkheader;	
+    struct pcap_pkthdr **pkheader;
     libnet_t *l;  //Libnet Context
-
+    const u_char **pkt_data;
     char errbuf[LIBNET_ERRBUF_SIZE];
     const u_char *packet;
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
@@ -60,11 +61,11 @@ int main()
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         usleep(100);
-        packet = pcap_next(des, &pkheader);
-        printf("miao %s\n",packet);
+        printf("%d",pcap_next_ex(des, pkheader, pkt_data));
+       
 
     }
-
+    closePacketSniffer(des);
     printf("\n Enabling the server...");
     enableServer(l,kevin,server);
 

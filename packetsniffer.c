@@ -26,24 +26,20 @@ pcap_t* packetSnifferInitialize()
         exit(0);
     }
     //Open
-    des=pcap_open_live(dev,BUFSIZ,0,1000,errbuff);
-
-    if(des==NULL)
+    if((des=pcap_open_live(dev,BUFSIZ,0,1000,errbuff))<0)
     {
         fprintf(stderr,"Error open live %s", errbuff);
     }
 
     //Set filter
-    pcap_compile(des, &fp, "src host 172.16.17.4 and not arp", 0, subMask);
-    if(des==NULL)
+    if(pcap_compile(des, &fp, "src host 172.16.17.4 and not arp", 0, subMask)<0)
     {
         fprintf(stderr, "%s", pcap_geterr(des));
         pcap_close(des);
         exit(0);
     }
 
-    pcap_setfilter(des, &fp);
-    if(des==NULL)
+    if(pcap_setfilter(des, &fp)<0)
     {
         fprintf(stderr, "%s", pcap_geterr(des));
         pcap_close(des);
