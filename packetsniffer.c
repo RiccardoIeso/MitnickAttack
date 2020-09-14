@@ -58,7 +58,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         sendPacket(l);
         usleep(1000);
         packet = pcap_next(des, &header);
-        stcp = (const struct tcp_hdr *) (packet + SIZE_ETH + sizeof(struct ip_hdr));
+        stcp = (tcpH *) (packet + 14 + sizeof(ipH));
         uint32_t seq = ntohl(stcp->th_seq);
         printf("\n %d", seq);
         fflush(stdout);
