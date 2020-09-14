@@ -14,6 +14,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     struct bpf_program fp;         
     struct pcap_pkthdr header;
     const u_char *packet;	
+    tcpH *stcp;
     dev = pcap_lookupdev(errbuff);
 
     //Check on device
@@ -57,6 +58,10 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         sendPacket(l);
         usleep(1000);
         packet = pcap_next(des, &header);
+        stcp = (const struct tcp_hdr *) (packet + SIZE_ETH + sizeof(struct ip_hdr));
+        uint32_t seq = ntohl(stcp->th_seq);
+        printf("\n %d", seq);
+        fflush(stdout);
         printf("miao");
         fflush(stdout);
 
