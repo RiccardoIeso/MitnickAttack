@@ -4,12 +4,6 @@
 #include <stdlib.h>
 #include "sender.h"
 
-	/* Ethernet header */
-	struct sniff_ethernet {
-		u_char ether_dhost[6]; /* Destination host address */
-		u_char ether_shost[6]; /* Source host address */
-		u_short ether_type; /* IP? ARP? RARP? etc */
-	};
 
 	/* IP header */
 	struct sniff_ip {
@@ -118,8 +112,9 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         }
 	    struct sniff_ethernet *ethernet=(struct sniff_ethernet *)(packet);
         struct sniff_ip *ip=(struct sniff_ip *)(packet + 14);
-        struct sniff_tcp *tcp=(struct sniff_tcp *)(packet +14+20);
-        //printf("\n seq: %d",tcp->th_seq);
+        struct sniff_tcp* tcp=(struct sniff_tcp *)(packet +14+20);
+        uint32_t seq = ntohl(tcp->th_seq);
+        printf("received seq %u\n", seq);
         fflush(stdout);
         printf("miao");
         fflush(stdout);
