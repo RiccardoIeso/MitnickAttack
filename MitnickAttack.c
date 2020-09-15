@@ -51,7 +51,8 @@ int main()
     fflush(stdout);
     disableServer(l,kevin,server);
     usleep(1000);
-    packetSnifferInitialize(l,kevin,xterminal);
+    uint32_t next=packetSnifferInitialize(l,kevin,xterminal);
+    printf("\n Next: %u",next);
     usleep(1000);
     printf("\n Enabling the server...");
     fflush(stdout);
