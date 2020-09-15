@@ -121,7 +121,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
             printf("\n mm ");
             exit(0);
         }
-	    printf("\n%d\n",header->len);
+	    printf("\n header len? %d\n",header->len);
         
         //ethernet = (struct sniff_ethernet*)(packet);
         ip = (struct sniff_ip*)(packet +14);
