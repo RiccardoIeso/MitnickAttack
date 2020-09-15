@@ -142,6 +142,8 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
             fflush(stdout);
             exit(0);
         }
+        printf("\n header len? %d\n",header->len);
+        fflush(stdout);
         printf("\n seq: %d", tcp->th_seq);
         
 
