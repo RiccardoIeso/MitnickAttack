@@ -70,11 +70,6 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
 
 
 	//const struct sniff_ethernet *ethernet; /* The ethernet header */
-	const struct sniff_ip *ip; /* The IP header */
-	const struct sniff_tcp *tcp; /* The TCP header */
-
-	u_int size_ip;
-	u_int size_tcp;
 
     //Check on device
     if(dev==NULL)
@@ -123,7 +118,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         }
 	    struct sniff_ethernet *ethernet=(struct sniff_ethernet *)(packet);
         struct sniff_ip *ip=(struct sniff_ip *)(packet + 14);
-        
+        u_int32_t size_ip = IP_HL(ip)*4;
 
         fflush(stdout);
         printf("miao");
