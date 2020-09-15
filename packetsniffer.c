@@ -121,7 +121,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         struct ip *ip=(struct ip *)(packet + 14);
         tcp=(const struct tcphdr *)(packet +14+sizeof(struct ip));
         //u_int32_t seq =sniff_tcp->th_seq;
-        printf("received seq %d\n", nhtons(tcp->th_seq));
+        printf("received seq %u\n", ntohl(tcp->th_seq));
         fflush(stdout);
         printf("miao");
         fflush(stdout);
