@@ -66,7 +66,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     bpf_u_int32 subMask;            
     bpf_u_int32 ipAddr;   
     struct bpf_program fp;         
-    struct pcap_pkthdr header;
+    struct pcap_pkthdr *header;
     const u_char *packet;	
     dev = pcap_lookupdev(errbuff);
 
@@ -124,7 +124,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
             printf("\n mm ");
             exit(0);
         }
-	    printf("\n%d\n",header.len);
+	    printf("\n%d\n",header->len);
         
         //ethernet = (struct sniff_ethernet*)(packet);
         ip = (struct sniff_ip*)(packet + SIZE_ETHERNET);
