@@ -125,8 +125,11 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         
         //ethernet = (struct sniff_ethernet*)(packet);
         ip = (struct sniff_ip*)(packet +14);
+        printf("\n header len? %d\n",header->len);
+        fflush(stdout);
         size_ip = IP_HL(ip)*4;
         printf("\n header len? %d\n",header->len);
+        fflush(stdout);
         if (size_ip < 20) {
             printf("   * Invalid IP header length: %u bytes\n", size_ip);            
             fflush(stdout);
