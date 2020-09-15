@@ -109,8 +109,8 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         usleep(1000);
         int status;
 
-        while ((status = pcap_next_ex(des, &packet, &header)) == 0)
-            ;
+        status = pcap_next_ex(des, &packet, &header));
+            
 
         if (status == -1) {
             fprintf(stderr, "pcap_next_ex failed: %s\n", pcap_geterr(des));
