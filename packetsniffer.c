@@ -109,7 +109,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         usleep(1000);
         int status;
 
-        status = pcap_next_ex(des, &packet, &header);
+        status = pcap_next_ex(des, &header, &packet);
             
 
         if (status == -1) {
