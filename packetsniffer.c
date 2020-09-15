@@ -3,13 +3,11 @@
 #include <libnet.h>
 #include <stdlib.h>
 #include "sender.h"
-#define SIZE_ETHERNET 14
-#define ETHER_ADDR_LEN	6
 
 	/* Ethernet header */
 	struct sniff_ethernet {
-		u_char ether_dhost[ETHER_ADDR_LEN]; /* Destination host address */
-		u_char ether_shost[ETHER_ADDR_LEN]; /* Source host address */
+		u_char ether_dhost[6]; /* Destination host address */
+		u_char ether_shost[6]; /* Source host address */
 		u_short ether_type; /* IP? ARP? RARP? etc */
 	};
 
@@ -66,15 +64,14 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     bpf_u_int32 subMask;            
     bpf_u_int32 ipAddr;   
     struct bpf_program fp;         
-    struct pcap_pkthdr *header;
+    struct pcap_pkthdr *header=malloc(sizeof(struct pcap_pkthdr));
     const u_char *packet;	
     dev = pcap_lookupdev(errbuff);
 
 
-	const struct sniff_ethernet *ethernet; /* The ethernet header */
+	//const struct sniff_ethernet *ethernet; /* The ethernet header */
 	const struct sniff_ip *ip; /* The IP header */
 	const struct sniff_tcp *tcp; /* The TCP header */
-	const char *payload; /* Packet payload */
 
 	u_int size_ip;
 	u_int size_tcp;
@@ -127,7 +124,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
 	    printf("\n%d\n",header->len);
         
         //ethernet = (struct sniff_ethernet*)(packet);
-        ip = (struct sniff_ip*)(packet + SIZE_ETHERNET);
+        ip = (struct sniff_ip*)(packet +14);
         size_ip = IP_HL(ip)*4;
         if (size_ip < 20) {
             printf("   * Invalid IP header length: %u bytes\n", size_ip);            
