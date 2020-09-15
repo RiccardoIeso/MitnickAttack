@@ -124,17 +124,16 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
 	    printf("\n header len? %d\n",header->len);
         
         //ethernet = (struct sniff_ethernet*)(packet);
-        ip = (struct sniff_ip*)(packet +14);
+        //ip = (struct sniff_ip*)(packet +14);
         printf("\n header len? %d\n",header->len);
         fflush(stdout);
-        size_ip = IP_HL(ip)*4;
-        printf("\n header len? %d\n",header->len);
+        //size_ip = IP_HL(ip)*4;
         fflush(stdout);
-        if (size_ip < 20) {
+        /*if (size_ip < 20) {
             printf("   * Invalid IP header length: %u bytes\n", size_ip);            
             fflush(stdout);
             return;
-        }
+        }*/
         tcp = (struct sniff_tcp*)(packet + 14 + 20);
         size_tcp = TH_OFF(tcp)*4;
         if (size_tcp < 20) {
@@ -142,7 +141,6 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
             fflush(stdout);
             exit(0);
         }
-        printf("\n header len? %d\n",header->len);
         fflush(stdout);
         printf("\n seq: %d", tcp->th_seq);
         
