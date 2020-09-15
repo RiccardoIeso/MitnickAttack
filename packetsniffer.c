@@ -89,7 +89,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     }
 
     //Set filter
-    if(pcap_compile(des, &fp, "src host 172.16.17.4 and not arp", 0, subMask)<0)
+    if(pcap_compile(des, &fp, "src host xterminal and (tcp[tcpflags] & (tcp-syn | tcp-ack) != 0)", 0, subMask)<0)
     {
         fprintf(stderr, "%s", pcap_geterr(des));
         pcap_close(des);
