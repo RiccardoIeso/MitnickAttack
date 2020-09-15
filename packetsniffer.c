@@ -19,7 +19,7 @@ uint32_t packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     struct pcap_pkthdr *header;
     const u_char *packet;	
     const struct tcphdr* tcp;
-    uint32_t seq[2];
+    uint32_t seq[3];
     dev = pcap_lookupdev(errbuff);
 
 
@@ -58,7 +58,7 @@ uint32_t packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         pcap_close(des);
         exit(0);
     }
-    for(int i=0; i<2;i++)
+    for(int i=0; i<3;i++)
     {
         //send packet
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
@@ -83,6 +83,7 @@ uint32_t packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     }
     
     //generate next seq
+    printf("\nLAST: ", seq[2]);
     uint32_t next=seq[1]+(seq[1]-seq[0])+11111111;
     pcap_close(des);
     return next;
