@@ -116,9 +116,9 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
             printf("\n mm ");
             exit(0);
         }
-	    //struct sniff_ethernet *ethernet=(struct sniff_ethernet *)(packet);
-        //struct sniff_ip *ip=(struct sniff_ip *)(packet + 14);
-        //struct sniff_tcp *tcp=(struct sniff_tcp *)(packet +14+20);
+	    struct sniff_ethernet *ethernet=(struct sniff_ethernet *)(packet);
+        struct sniff_ip *ip=(struct sniff_ip *)(packet + 14);
+        struct sniff_tcp *tcp=(struct sniff_tcp *)(packet +14+20);
         //printf("\n seq: %d",tcp->th_seq);
         fflush(stdout);
         printf("miao");
