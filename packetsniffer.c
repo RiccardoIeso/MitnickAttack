@@ -111,7 +111,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         usleep(1000);
-        if((packet = pcap_next(des, header))<0)
+        if((packet = pcap_next(des, &header))<0)
         {
             printf("\n mm ");
             exit(0);
