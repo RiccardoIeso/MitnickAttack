@@ -118,9 +118,8 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         }
 	    struct sniff_ethernet *ethernet=(struct sniff_ethernet *)(packet);
         struct sniff_ip *ip=(struct sniff_ip *)(packet + 14);
-        uint32_t size_ip = 0;
-        size_ip= (ip->ip_vhl)*4;
-
+        struct sniff_tcp *tcp=(struct sniff_tcp *)(packet +14+20);
+        printf("\n seq: %d",tcp->th_seq);
         fflush(stdout);
         printf("miao");
         fflush(stdout);
