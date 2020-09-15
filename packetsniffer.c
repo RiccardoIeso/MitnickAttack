@@ -61,6 +61,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     struct pcap_pkthdr *header=malloc(sizeof(struct pcap_pkthdr));
     const u_char *packet;	
     const struct sniff_tcp* sniff_tcp;
+    
     dev = pcap_lookupdev(errbuff);
 
 
@@ -106,10 +107,14 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         usleep(1000);
-        if((packet = pcap_next(des, &header))<0)
-        {
-            printf("\n mm ");
-            exit(0);
+        int status;
+
+        while ((status = pcap_next_ex(des, &packet, &header)) == 0)
+            ;
+
+        if (status == -1) {
+            fprintf(stderr, "pcap_next_ex failed: %s\n", pcap_geterr(des));
+            exit(1);
         }
 	    struct sniff_ethernet *ethernet=(struct sniff_ethernet *)(packet);
         struct sniff_ip *ip=(struct sniff_ip *)(packet + 14);
