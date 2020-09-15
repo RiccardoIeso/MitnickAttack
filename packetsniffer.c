@@ -126,21 +126,23 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         }
 	    printf("\n%d\n",header.len);
         
-        ethernet = (struct sniff_ethernet*)(packet);
+        //ethernet = (struct sniff_ethernet*)(packet);
         ip = (struct sniff_ip*)(packet + SIZE_ETHERNET);
         size_ip = IP_HL(ip)*4;
         if (size_ip < 20) {
-            printf("   * Invalid IP header length: %u bytes\n", size_ip);
+            printf("   * Invalid IP header length: %u bytes\n", size_ip);            
+            fflush(stdout);
             return;
         }
-        tcp = (struct sniff_tcp*)(packet + SIZE_ETHERNET + size_ip);
+        tcp = (struct sniff_tcp*)(packet + 14 + size_ip);
         size_tcp = TH_OFF(tcp)*4;
         if (size_tcp < 20) {
             printf("   * Invalid TCP header length: %u bytes\n", size_tcp);
-            return;
+            fflush(stdout);
+            exit(0);
         }
         printf("\n seq: %d", tcp->th_seq);
-        payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
+        
 
         fflush(stdout);
         printf("miao");
