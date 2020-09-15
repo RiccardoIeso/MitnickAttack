@@ -58,7 +58,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     bpf_u_int32 subMask;            
     bpf_u_int32 ipAddr;   
     struct bpf_program fp;         
-    struct pcap_pkthdr *header=malloc(sizeof(struct pcap_pkthdr));
+    struct pcap_pkthdr *header;
     const u_char *packet;	
     const struct sniff_tcp* sniff_tcp;
     
