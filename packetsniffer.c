@@ -139,6 +139,7 @@ void packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
             printf("   * Invalid TCP header length: %u bytes\n", size_tcp);
             return;
         }
+        printf("\n seq: %d", tcp->th_seq);
         payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
 
         fflush(stdout);
