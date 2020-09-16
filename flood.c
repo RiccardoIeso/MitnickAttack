@@ -4,7 +4,7 @@
 #include "sender.h"
 void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp)
 {
-
+    //Sends 10 packet to the server with payload disable
     for(int i=0; i<10; i++)
     {   
         tcpTagCreate(l,libnet_get_prand(LIBNET_PRu16),(u_int16_t)513,
@@ -21,6 +21,7 @@ void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp)
 
 void enableServer(libnet_t *l,u_long kevinIp,u_long serverIp)
 {
+    //Sends 1 packet to the server with payload enable
     tcpTagCreate(l,libnet_get_prand(LIBNET_PRu16),(u_int16_t)513,
                                     libnet_get_prand(LIBNET_PRu32),libnet_get_prand(LIBNET_PRu32),
                                     "enable", 6,

