@@ -8,7 +8,7 @@
 #include "sender.h"
 
 
-uint32_t packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
+pcap_t* packetSnifferInitialize()
 {
     char *dev;
     char errbuff[PCAP_ERRBUF_SIZE];
@@ -16,10 +16,6 @@ uint32_t packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
     bpf_u_int32 subMask;            
     bpf_u_int32 ipAddr;   
     struct bpf_program fp;         
-    struct pcap_pkthdr *header;
-    const u_char *packet;	
-    const struct tcphdr* tcp;
-    uint32_t seq[2];
     dev = pcap_lookupdev(errbuff);
 
 
@@ -58,6 +54,17 @@ uint32_t packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
         pcap_close(des);
         exit(0);
     }
+    return des;
+
+}
+
+uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport, u_int32_t dport, pcap_t* des )
+{
+    struct pcap_pkthdr *header;
+    const u_char *packet;	
+    const struct tcphdr* tcp;
+    uint32_t seq[2];
+
     for(int i=0; i<2;i++)
     {
         //send packet
@@ -73,8 +80,8 @@ uint32_t packetSnifferInitialize(libnet_t *l,u_long kevin, u_long xterminal)
             fprintf(stderr, "pcap_next_ex failed: %s\n", pcap_geterr(des));
             exit(1);
         }
-	    struct ethernet *ethernet=(struct ethernet *)(packet);
-        struct ip *ip=(struct ip *)(packet + 14);
+	    //struct ethernet *ethernet=(struct ethernet *)(packet);
+        //struct ip *ip=(struct ip *)(packet + 14);
         tcp=(const struct tcphdr *)(packet +14+sizeof(struct ip));
         seq[i] =ntohl(tcp->th_seq);
         printf("received seq %u\n", ntohl(tcp->th_seq));

