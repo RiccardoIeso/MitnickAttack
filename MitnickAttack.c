@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
-
+    printf("%.2f sec to resp", timeToAnswer(l,kevin,xterminal,514,514,des));
     //Retrieve the next sequence of xterminal
     uint32_t next=getNextSeq(l,kevin,xterminal,514,514,des);
 

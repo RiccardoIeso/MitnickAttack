@@ -63,6 +63,25 @@ pcap_t* packetSnifferInitialize()
 
 }
 
+double timeToAnswer(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport, u_int32_t dport, pcap_t* des)
+{
+    struct pcap_pkthdr *header;
+    const u_char *packet;
+   
+    int status;
+
+    tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
+    ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
+    time_t start = time(NULL);
+    sendPacket(l);
+
+    //Read packet
+    status = pcap_next_ex(des, &header, &packet);
+        
+    //Check the result of the reading
+    return (double)(time(NULL) - start);
+}
+
 
 uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport, u_int32_t dport, pcap_t* des )
 {
