@@ -34,9 +34,11 @@ int main(int argc, char **argv)
     char errbuf[LIBNET_ERRBUF_SIZE];
     int clean=0;
     
-    if((argc==1)&&(strcmp(argv[1],"clean")==0))
-        clean=1;
-    
+    if(argc>1)
+    {
+        if(strcmp(argv[1],"clean")==0)
+            clean=1;
+    }
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
 
     //Check on libnet initialization
