@@ -11,7 +11,7 @@ void tcpTagCreate( libnet_t *l,u_int32_t srcPort, u_int32_t dstPort,
         seqNumber,      //sequence number
         ackNumber,      //acknowledgement
         controlFlags,   //control flags
-        libnet_get_prand(LIBNET_PRu16), //window size
+        (uint16_t)8192, //window size
         0,
         0,
         LIBNET_TCP_H + payloadLength, //packet length
