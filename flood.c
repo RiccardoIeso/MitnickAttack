@@ -13,7 +13,7 @@ void disableServer(libnet_t *l,u_long sniffIp, u_long serverIp)
                                     TH_SYN);
 
         ipTagCreate(l,(u_int32_t)sniffIp,(u_int32_t)serverIp,
-                                   NULL, (u_int32_t)8 );
+                                   NULL, (u_int32_t)7 );
         sendPacket(l);
         usleep(200); 
     }
