@@ -17,7 +17,7 @@ void disableServer(libnet_t *l,u_long sniffIp, u_long serverIp)
         sendPacket(l);
         usleep(200); 
     }
-    usleep(200); 
+    
                     
 }
 
