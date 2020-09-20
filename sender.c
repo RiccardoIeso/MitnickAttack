@@ -1,4 +1,6 @@
 #include "sender.h"
+
+//Function to build tcp layer
 void tcpTagCreate( libnet_t *l,u_int32_t srcPort, u_int32_t dstPort,
                                 u_int32_t seqNumber, u_int32_t ackNumber,
                                     char *payload, u_int32_t payloadLength, 
