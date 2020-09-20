@@ -92,12 +92,13 @@ uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport,
     const struct tcphdr* tcp;
     int status;
     uint32_t seq[2];
-
+    tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
+    ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
+    
     for(int i=0; i<2;i++)
     {
         //Send SYN packet
-        tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)123456,(u_int32_t)1,NULL,0,TH_SYN);
-        ipTagCreate(l,(u_int32_t)kevin,(u_int32_t)xterminal,NULL,(u_int32_t)0);
+        
         sendPacket(l);
 
         //Read packet

