@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sender.h"
-void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp)
+void disableServer(libnet_t *l,u_long sniffIp, u_long serverIp)
 {
     //Sends 10 packet to the server with payload disable
     for(int i=0; i<11; i++)
@@ -12,11 +12,10 @@ void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp)
                                     "disable\0", 8,
                                     TH_SYN);
 
-        ipTagCreate(l,(u_int32_t)kevinIp,(u_int32_t)serverIp,
+        ipTagCreate(l,(u_int32_t)sniffIp,(u_int32_t)serverIp,
                                    NULL, (u_int32_t)8 );
         sendPacket(l);
         usleep(200); 
-          
     }
     usleep(2000); 
                     

