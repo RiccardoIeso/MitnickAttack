@@ -35,7 +35,7 @@ void ipTagCreate( libnet_t *l, u_int32_t srcAddr, u_int32_t dstAddr,
 {
     libnet_ptag_t ip= LIBNET_PTAG_INITIALIZER;
     ip=libnet_build_ipv4(
-        LIBNET_IPV4_H + LIBNET_TCP_H + payloadLength, //packet length
+        LIBNET_IPV4_H + LIBNET_TCP_H + payloadLength, 
         0,
         libnet_get_prand(LIBNET_PRu16),
         0,
