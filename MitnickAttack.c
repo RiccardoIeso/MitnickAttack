@@ -71,6 +71,7 @@ int main(int argc, char **argv)
     printf("\nDisabling server...");
     fflush(stdout);
     disableServer(l,kevin,server);
+    sleep(1);
     exit(0);
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
