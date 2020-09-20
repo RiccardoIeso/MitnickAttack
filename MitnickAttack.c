@@ -81,7 +81,6 @@ int main(int argc, char **argv)
     libnet_clear_packet(l);
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
-    sleep(2);
     uint32_t next=getNextSeq(l,kevin,xterminal,513,514,des);
     libnet_clear_packet(l);
     printf("\nNext: %u",next);
