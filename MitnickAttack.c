@@ -102,11 +102,11 @@ int main(int argc, char **argv)
     
     usleep(1000);
 
-    //RESTORE THE SERVER
+    //RESTORE THE SERVER*/
     printf("\n Enabling the server...");
     fflush(stdout);
     enableServer(l,kevin,server);
-    */
+    
 
     
     libnet_destroy(l);
