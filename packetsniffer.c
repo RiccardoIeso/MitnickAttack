@@ -119,6 +119,8 @@ uint32_t getNextSeq(libnet_t *l,u_long kevin, u_long xterminal, u_int32_t sport,
             //Save seq retrieved
             seq[i] =ntohl(tcp->th_seq);
 
+            //
+
         }
         if((seq[2]-seq[1])==(seq[1]-seq[0]+11111111))
             samepattern=1;
