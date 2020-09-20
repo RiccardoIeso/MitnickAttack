@@ -15,8 +15,9 @@ void disableServer(libnet_t *l,u_long kevinIp, u_long serverIp)
         ipTagCreate(l,(u_int32_t)kevinIp,(u_int32_t)serverIp,
                                    NULL, (u_int32_t)7 );
         sendPacket(l);
-        usleep(200);   
+          
     }
+    usleep(200); 
                     
 }
 
