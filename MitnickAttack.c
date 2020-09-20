@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     printf("\nDisabling server...");
     fflush(stdout);
     disableServer(l,kevin,server);
-    return 0;
+    exit(0);
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
    // double tta= timeToAnswer(l,kevin,xterminal,514,514,des);
