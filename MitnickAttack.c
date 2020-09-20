@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     fflush(stdout);
     disableServer(l,sniffip,server);
     sleep(1);
-    /*
+    
     //Create the pscket sniffer
     pcap_t *des=packetSnifferInitialize();
    // double tta= timeToAnswer(l,kevin,xterminal,514,514,des);
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
     enableServer(l,kevin,server);
 
 
-    */
+    
     libnet_destroy(l);
     return 0;
 }
