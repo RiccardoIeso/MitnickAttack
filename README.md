@@ -1,6 +1,7 @@
 # MitnickAttack
 
-Reproduction of the Mintnick Attack done for the Computer Network Security course.
+Replication of The Mitnick Attack.
+Assignment of Computer and Network Security course at Vrije Universiteit Amsterdam.
 
 
 
